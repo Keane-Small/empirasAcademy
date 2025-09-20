@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Student Rewards Dashboard</title>
+  <link rel="stylesheet"href="rewards.css">
+</head>
+<body>
+  <div class="container" role="application" aria-label="Student rewards dashboard">
+    <aside class="sidebar" aria-labelledby="profile-title">
+      <div class="profile">
+        <div class="avatar" id="avatar">A</div>
+        <div>
+          <h1 id="profile-title">Angelique</h1>
+          <p class="small">Level up by completing tasks and redeem gifts in the store.</p>
+        </div>
+      </div>
+
+      <div class="balance" aria-live="polite">
+        <div>
+          <div class="muted">Token balance</div>
+          <div class="tokens" id="token-count">0</div>
+        </div>
+        <div>
+          <button class="earn-btn btn-outline" id="quick-earn">+5</button>
+        </div>
+      </div>
+
+      <div class="progress-wrap">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">
+          <div class="muted">Level progress</div>
+          <div class="chip" id="level-chip">Lv 1</div>
+        </div>
+        <div class="progress" aria-hidden="false" aria-label="level progress bar">
+          <span id="progress-bar" style="width:0%"></span>
+        </div>
+      </div>
+
+      <div class="tasks">
+        <h3 style="font-size:14px; margin:12px 0 8px 0">Tasks</h3>
+        <div id="task-list">
+          <!-- tasks injected here -->
+        </div>
+      </div>
+
+      <div style="margin-top:12px; font-size:12px; color:var(--muted)">
+        <strong>Tip:</strong> Complete tasks to earn tokens.
+      </div>
+    </aside>
+
+    <main class="main">
+      <div style="display:flex; justify-content:space-between; gap:12px; align-items:center; margin-bottom:12px">
+        <div>
+          <h2 style="margin:0">Rewards Store</h2>
+          <p class="small">Redeem tokens for real-world or digital perks.</p>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center">
+          <div class="muted">Sort:</div>
+          <select id="sort" class="chip" aria-label="Sort gifts">
+            <!-- Removed 'Popular' option -->
+          </select>
+        </div>
+      </div>
+
+      <section class="store" id="store">
+        <!-- gifts injected here -->
+      </section>
+    </main>
+  </div>
+
+  <!-- modal -->
+  <div id="modal" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal" id="modal-card">
+      <h3 id="modal-title">Redeem gift</h3>
+      <p id="modal-body" class="muted">Confirm redemption?</p>
+      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:12px">
+        <button id="modal-cancel" class="btn-outline">Cancel</button>
+        <button id="modal-confirm" class="btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+<script src="rewards.js"></script>
+</body>
+</html>
