@@ -8,9 +8,9 @@
 
     <title>Dashboard</title>
 </head>
-<body>
+<body style="margin:0;padding:0;">
 
-
+<!-- 
 <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
   <div class="px-3 py-3 lg:px-5 lg:pl-3">
     <div class="flex items-center justify-between">
@@ -22,7 +22,6 @@
             </svg>
          </button>
         <a href="https://flowbite.com" class="flex ms-2 md:me-24">
-          <!-- <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="FlowBite Logo" /> -->
           <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Empires Academy</span>
         </a>
       </div>
@@ -64,8 +63,11 @@
   </div>
 </nav>
 
-<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
-   <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
+ -->
+
+<div class="flex items-start gap-2">
+<aside id="logo-sidebar" style="height:96vh !important; margin-top:20px;" class="sticky top-12 self-start ms-4 w-62 h-[80vh] bg-white border border-gray-200/40 dark:bg-gray-800 dark:border-gray-700/30 rounded-lg overflow-hidden shadow-2xl" aria-label="Sidebar">
+   <div style="height:100% !important;" class="px-2 pb-3 p-3 h-full overflow-y-auto bg-white dark:bg-gray-800 rounded-lg">
       <ul class="space-y-2 font-medium">
          <li>
             <a href="./dashboard.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -85,7 +87,7 @@
             </a>
          </li>
           <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <a href="./academics.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <span class="flex-1 ms-3 whitespace-nowrap">Academics</span>
             </a>
          </li>
@@ -131,14 +133,65 @@
                <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                   <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
                </svg>
-               <span class="flex-1 ms-3 whitespace-nowrap">Profile</span>
+               <span class="flex-1 ms-3 whitespace-nowrap">Calender</span>
             </a>
          </li>
       </ul>
    </div>
 </aside>
 
-<div class=" sm:ml-64">
+<div class="flex-1 pl-4 sm:pl-8">
+<section class="bg-white dark:bg-gray-1000">
+   <div class="mx-auto max-w-screen-xl pt-5 pb-8 lg:pt-5 lg:pb-8">
+  <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 filter drop-shadow-lg">
+            <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Academics</span></h1>
+        </div>
+      </div>
+      <div class="mx-auto max-w-screen-xl pt-5 pb-8 lg:pt-5 lg:pb-8">
+    <!-- Start coding here -->
+    <div class="relative bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
+      <div class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
+        
+        <div class="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
+          <button type="button" class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+            <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+            </svg>
+            Add Course
+          </button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="mx-auto max-w-screen-xl pt-5 pb-8 lg:pt-5 lg:pb-8">
+  <div class="grid gap-6 md:grid-cols-3">
+    <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 filter drop-shadow-lg">
+      <h2 class="mb-4 text-2xl font-extrabold text-gray-900 dark:text-white md:text-3xl lg:text-4xl">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Academics</span>
+      </h2>
+      <p class="text-gray-600 dark:text-gray-300">Explore courses, schedules and academic resources.</p>
+    </div>
+
+    <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 filter drop-shadow-lg">
+      <h2 class="mb-4 text-2xl font-extrabold text-gray-900 dark:text-white md:text-3xl lg:text-4xl">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r to-pink-500 from-purple-400">Athletics</span>
+      </h2>
+      <p class="text-gray-600 dark:text-gray-300">View teams, fixtures, and athletic programs.</p>
+    </div>
+
+    <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 filter drop-shadow-lg">
+      <h2 class="mb-4 text-2xl font-extrabold text-gray-900 dark:text-white md:text-3xl lg:text-4xl">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r to-yellow-500 from-red-400">Student Life</span>
+      </h2>
+      <p class="text-gray-600 dark:text-gray-300">Discover clubs, events, and campus life.</p>
+    </div>
+  </div>
+</div>
+  </div>
+  
+</section>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
