@@ -1,0 +1,57 @@
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 40px;
+  background-color: #f9f9f9;
+  color: #333;
+}
+h1,
+h2 {
+  color: #2c3e50;
+}
+h1 {
+  font-size: 2em;
+  margin-bottom: 0.5em;
+}
+h2 {
+  font-size: 1.5em;
+  margin-top: 1.5em;
+}
+ul {
+  margin-left: 20px;
+}
+hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 20px 0;
+}
+.contact {
+  margin-top: 20px;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Pop-up styles */
+.popup {
+  position: fixed;
+  top: 20px;
+  right: -350px; /* start off-screen */
+  width: 300px;
+  background-color: #fff;
+  color: #333;
+  border: 2px solid #2c3e50;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  font-size: 1em;
+  z-index: 1000;
+  transition: right 0.5s ease;
+}
+
+/* Show the popup */
+.popup.show {
+  right: 20px; /* moves into view */
+}
