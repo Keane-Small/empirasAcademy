@@ -324,10 +324,28 @@
                 
                 div.textContent = date.getDate();
                 
-                div.addEventListener('click', () => {
-                    this.selectedDate = new Date(date);
-                    this.render();
-                });
+                                div.addEventListener('click', () => {
+                                        // If a global onDateClick handler exists (added by Firestore module), call it.
+                                        if (typeof window.onDateClick === 'function') {
+                                            window.onDateClick(new Date(date));
+                                        } else {
+                                            this.selectedDate = new Date(date);
+                                            this.render();
+                                        }
+                                });
+                                // If a global events cache exists, show an indicator dot for days with events
+                                try {
+                                    if (window.eventsByDate) {
+                                        const key = date.toISOString().slice(0,10);
+                                        const ev = window.eventsByDate[key];
+                                        if (ev && ev.length) {
+                                            const dot = document.createElement('div');
+                                            dot.className = 'mt-2 flex justify-center';
+                                            dot.innerHTML = '<span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span>';
+                                            div.appendChild(dot);
+                                        }
+                                    }
+                                } catch (e) {}
                 
                 return div;
             }
@@ -345,6 +363,115 @@
         });
     </script>
 </section>
+
+<!-- Firestore events integration -->
+<script type="module">
+    const firebaseConfig = {
+        apiKey: "AIzaSyCT66hhA0ILeNCaAXkwQH_muAVH-JkTXNg",
+        authDomain: "afrihack25connect.firebaseapp.com",
+        projectId: "afrihack25connect",
+        storageBucket: "afrihack25connect.firebasestorage.app",
+        messagingSenderId: "233041342533",
+        appId: "1:233041342533:web:e3c15cf7c3ddd475c6f32c"
+    };
+
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
+    import { getFirestore, collection, addDoc, query, where, orderBy, getDocs } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Simple in-memory cache of events by date (YYYY-MM-DD)
+    window.eventsByDate = {};
+
+    function formatDateKey(d) {
+        return d.toISOString().slice(0,10);
+    }
+
+    async function loadUpcomingEvents() {
+        try {
+            const eventsList = document.getElementById('eventsList');
+            eventsList.innerHTML = '';
+            // Query upcoming events (today onwards)
+            const todayKey = new Date().toISOString().slice(0,10);
+            const q = query(collection(db, 'events'), orderBy('date', 'asc'));
+            const snap = await getDocs(q);
+            window.eventsByDate = {};
+            const docs = [];
+            snap.forEach(d => {
+                const data = d.data();
+                const date = data.date || '';
+                if (!window.eventsByDate[date]) window.eventsByDate[date] = [];
+                window.eventsByDate[date].push(Object.assign({id: d.id}, data));
+                docs.push(Object.assign({id: d.id}, data));
+            });
+
+            // Render upcoming (next 10)
+            const upcoming = docs.filter(e => e.date >= todayKey).slice(0,10);
+            if (!upcoming.length) {
+                const empty = document.createElement('div');
+                empty.className = 'text-center text-gray-500';
+                empty.textContent = 'No upcoming events.';
+                eventsList.appendChild(empty);
+                return;
+            }
+
+            for (const ev of upcoming) {
+                const wrap = document.createElement('div');
+                wrap.className = 'flex items-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border-l-4 border-blue-500';
+                const main = document.createElement('div');
+                main.className = 'flex-1';
+                const h = document.createElement('h4');
+                h.className = 'font-semibold text-gray-900 dark:text-white';
+                h.textContent = ev.title || 'Untitled Event';
+                const p = document.createElement('p');
+                p.className = 'text-sm text-gray-600 dark:text-gray-400';
+                p.textContent = `${ev.date}` + (ev.time ? ` at ${ev.time}` : '');
+                main.appendChild(h);
+                main.appendChild(p);
+                const tag = document.createElement('span');
+                tag.className = 'px-2 py-1 bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200 text-xs rounded-full';
+                tag.textContent = ev.category || 'Event';
+                wrap.appendChild(main);
+                wrap.appendChild(tag);
+                eventsList.appendChild(wrap);
+            }
+
+            // Trigger a re-render of calendar (to show dots)
+            if (typeof window.calendarInstance === 'object' && typeof window.calendarInstance.render === 'function') {
+                window.calendarInstance.render();
+            }
+        } catch (e) {
+            console.error('Failed to load upcoming events', e);
+        }
+    }
+
+    // Expose handler for date clicks used by calendar
+    window.onDateClick = async function(date) {
+        const key = formatDateKey(date);
+        const title = prompt('Event title (leave empty to cancel)');
+        if (!title) return;
+        const time = prompt('Optional time (e.g. 14:00)') || '';
+        const category = prompt('Category (optional)') || 'Event';
+        try {
+            await addDoc(collection(db, 'events'), { date: key, title, time, category });
+            alert('Event saved');
+            await loadUpcomingEvents();
+        } catch (e) {
+            console.error('Failed to save event', e);
+            alert('Failed to save event, check console');
+        }
+    };
+
+    // Provide a hook for calendar to access instance and events cache
+    window.calendarReady = function(calendar) {
+        window.calendarInstance = calendar;
+        loadUpcomingEvents();
+    };
+
+    // initial load
+    loadUpcomingEvents();
+</script>
 
 
 
