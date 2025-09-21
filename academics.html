@@ -5,7 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="input.css">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
-
+     <style>
+            /* Keep the sidebar the same size but make it sticky; inner list scrolls */
+            :root { --ea-header-h: 0.5rem; --ea-sidebar-shrink: 20px; --ea-sidebar-pt: 12px; --ea-sidebar-pb: 20px; }
+            #logo-sidebar {
+               position: sticky;
+               top: var(--ea-header-h);
+               align-self: flex-start;
+               z-index: 30;
+               display: flex;
+               flex-direction: column;
+               height: calc(100vh - var(--ea-header-h) - var(--ea-sidebar-shrink)) !important;
+               margin-bottom: var(--ea-sidebar-pb); /* extra space below the aside */
+               /* width controlled by existing classes (w-62) to keep same size */
+            }
+            #logo-sidebar .sidebar-inner { height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-top: var(--ea-sidebar-pt); padding-bottom: var(--ea-sidebar-pb); }
+            #logo-sidebar .sidebar-inner::after { content: ""; display: block; height: var(--ea-sidebar-pb); width: 1px; }
+         </style>
     <title>Dashboard</title>
 </head>
 <body style="margin:0;padding:0;">
@@ -66,8 +82,8 @@
  -->
 
 <div class="flex items-start gap-2">
-<aside id="logo-sidebar" style="height:96vh !important; margin-top:20px;" class="sticky top-12 self-start ms-4 w-62 h-[80vh] bg-white border border-gray-200/40 dark:bg-gray-800 dark:border-gray-700/30 rounded-lg overflow-hidden shadow-2xl" aria-label="Sidebar">
-   <div style="height:100% !important;" class="px-2 pb-3 p-3 h-full overflow-y-auto bg-white dark:bg-gray-800 rounded-lg">
+<aside id="logo-sidebar" class="sticky self-start ms-4 mt-4 w-62 bg-white pt-5 border border-gray-200/40 dark:bg-gray-800 dark:border-gray-700/30 rounded-lg overflow-hidden shadow-2xl" aria-label="Sidebar">
+   <div class="sidebar-inner px-2 pb-3 p-3 bg-white dark:bg-gray-800 rounded-lg">
       <ul class="space-y-2 font-medium">
          <li>
             <a href="./dashboard.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -102,8 +118,8 @@
             </a>
          </li>
           <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-               <span class="flex-1 ms-3 whitespace-nowrap">Community</span>
+            <a href="./events.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+               <span class="flex-1 ms-3 whitespace-nowrap">Events</span>
             </a>
          </li>
           <li>
@@ -131,8 +147,7 @@
          <li>
             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                  <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.
-                  331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
+                  <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
                </svg>
                <span class="flex-1 ms-3 whitespace-nowrap">Calender</span>
             </a>
@@ -196,30 +211,177 @@
       </div>
     </div>
     </div>
+<!-- Dynamic Sections Grid (populated from Firestore `sections` collection) -->
 <div class="mx-auto max-w-screen-xl pt-5 pb-8 lg:pt-5 lg:pb-8">
-  <div class="grid gap-6 md:grid-cols-3">
-    <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 filter drop-shadow-lg">
-      <h2 class="mb-4 text-2xl font-extrabold text-gray-900 dark:text-white md:text-3xl lg:text-4xl">
-        <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Academics</span>
-      </h2>
-      <p class="text-gray-600 dark:text-gray-300">Explore courses, schedules and academic resources.</p>
-    </div>
-
-    <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 filter drop-shadow-lg">
-      <h2 class="mb-4 text-2xl font-extrabold text-gray-900 dark:text-white md:text-3xl lg:text-4xl">
-        <span class="text-transparent bg-clip-text bg-gradient-to-r to-pink-500 from-purple-400">Athletics</span>
-      </h2>
-      <p class="text-gray-600 dark:text-gray-300">View teams, fixtures, and athletic programs.</p>
-    </div>
-
-    <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 filter drop-shadow-lg">
-      <h2 class="mb-4 text-2xl font-extrabold text-gray-900 dark:text-white md:text-3xl lg:text-4xl">
-        <span class="text-transparent bg-clip-text bg-gradient-to-r to-yellow-500 from-red-400">Student Life</span>
-      </h2>
-      <p class="text-gray-600 dark:text-gray-300">Discover clubs, events, and campus life.</p>
+  <div id="sectionsGrid" class="grid gap-6 md:grid-cols-3">
+    <!-- Loading card shown until data loads -->
+    <div id="loadingCard" class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 filter drop-shadow-lg">
+      <h2 class="mb-4 text-2xl font-extrabold text-gray-900 dark:text-white md:text-3xl lg:text-4xl">Loading sections…</h2>
+      <p class="text-gray-600 dark:text-gray-300">Fetching content from the server.</p>
     </div>
   </div>
 </div>
+
+<!-- Firebase Firestore renderer: replace placeholder firebaseConfig below with your project values -->
+<script type="module">
+  // TODO: Replace these placeholder values with your Firebase project config
+  const firebaseConfig = {
+  apiKey: "AIzaSyCT66hhA0ILeNCaAXkwQH_muAVH-JkTXNg",
+  authDomain: "afrihack25connect.firebaseapp.com",
+  projectId: "afrihack25connect",
+  storageBucket: "afrihack25connect.firebasestorage.app",
+  messagingSenderId: "233041342533",
+  appId: "1:233041342533:web:e3c15cf7c3ddd475c6f32c"
+  };
+
+  // Import Firebase modules from CDN (v9 modular)
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
+  import { getFirestore, collection, getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const sectionsGrid = document.getElementById('sectionsGrid');
+  const loadingCard = document.getElementById('loadingCard');
+
+  function createCard(data) {
+    const div = document.createElement('div');
+    div.className = 'bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 filter drop-shadow-lg';
+
+    const title = document.createElement('h2');
+    title.className = 'mb-4 text-2xl font-extrabold text-gray-900 dark:text-white md:text-3xl lg:text-4xl';
+    const span = document.createElement('span');
+    span.className = 'text-transparent bg-clip-text ' + (data.gradientClass || 'bg-gradient-to-r to-emerald-600 from-sky-400');
+    span.textContent = data.title || 'Untitled';
+    title.appendChild(span);
+
+    const p = document.createElement('p');
+    p.className = 'text-gray-600 dark:text-gray-300';
+    p.textContent = data.description || '';
+
+    div.appendChild(title);
+    div.appendChild(p);
+
+    return div;
+  }
+
+  async function loadSections() {
+    // Helper to safely get documents from a collection reference
+    async function safeGetDocs(colRef) {
+      try {
+        return await getDocs(colRef);
+      } catch (e) {
+        return { empty: true, docs: [] };
+      }
+    }
+
+    try {
+      // Collect courses across the nested structure
+      const courses = [];
+
+      // Top-level parents
+      const parentsSnap = await safeGetDocs(collection(db, 'Parent'));
+  
+      for (const parentDoc of parentsSnap.docs || []) {
+        // First try the path: parent -> parent1 -> student -> courses
+        const parent1Snap = await safeGetDocs(collection(parentDoc.ref, 'parent1'));
+        
+        if (!parent1Snap.empty) {
+          for (const p1Doc of parent1Snap.docs) {
+            // under parent1 we expect a 'students' collection containing student UIDs
+            const studentsSnap = await safeGetDocs(collection(p1Doc.ref, 'Students'));
+            console.log(studentsSnap)
+            for (const studentDoc of studentsSnap.docs || []) {
+              // studentDoc.id is the student UID; studentDoc may contain metadata but courses are under studentDoc.ref
+              const coursesSnap = await safeGetDocs(collection(studentDoc.ref, 'courses'));
+              coursesSnap.forEach(cd => {
+                const data = cd.data();
+                console.log(data)
+                courses.push({
+                  _id: `${parentDoc.id}/${p1Doc.id}/${studentDoc.id}/${cd.id}`,
+                  title: data.title || '',
+                  description: data.description || '',
+                  gradientClass: data.gradientClass || '',
+                  order: (data.order !== undefined) ? data.order : 999
+                });
+              });
+            }
+          }
+          // continue to next parent if we found nested entries
+          if (courses.length) continue;
+        }
+
+        // Fallback: parent -> students -> courses
+        const studentsSnap = await safeGetDocs(collection(parentDoc.ref, 'Students'));
+        for (const studentDoc of studentsSnap.docs || []) {
+          // try both 'courses' and 'course' subcollection names
+          const courseNames = ['courses', 'course'];
+          for (const name of courseNames) {
+            const coursesSnap = await safeGetDocs(collection(studentDoc.ref, name));
+            coursesSnap.forEach(cd => {
+              const data = cd.data();
+              courses.push({
+                _id: `${parentDoc.id}/${studentDoc.id}/${cd.id}`,
+                title: data.title || '',
+                description: data.description || '',
+                gradientClass: data.gradientClass || '',
+                order: (data.order !== undefined) ? data.order : 999
+              });
+            });
+          }
+        }
+      }
+
+      // Final fallback: top-level 'courses' collection
+      if (courses.length === 0) {
+        const topSnap = await safeGetDocs(collection(db, 'courses'));
+        topSnap.forEach(doc => {
+          const data = doc.data();
+          courses.push({
+            _id: doc.id,
+            title: data.title || '',
+            description: data.description || '',
+            gradientClass: data.gradientClass || '',
+            order: (data.order !== undefined) ? data.order : 999
+          });
+        });
+      }
+
+      // remove loading card
+      if (loadingCard && loadingCard.parentNode) loadingCard.parentNode.removeChild(loadingCard);
+
+      if (courses.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'col-span-3 text-center text-gray-500';
+        empty.textContent = 'No courses found. Please add data to Firestore under Parent → parent1 → student → courses.';
+        sectionsGrid.appendChild(empty);
+        return;
+      }
+
+      // sort and render
+      courses.sort((a, b) => (a.order - b.order) || a.title.localeCompare(b.title));
+      for (const c of courses) {
+        const card = createCard(c);
+        sectionsGrid.appendChild(card);
+      }
+    } catch (err) {
+      console.error('Error loading sections:', err);
+      if (loadingCard && loadingCard.parentNode) loadingCard.parentNode.removeChild(loadingCard);
+      const errDiv = document.createElement('div');
+      errDiv.className = 'col-span-3 text-red-600';
+      errDiv.textContent = 'Failed to load content. Check console for details.';
+      sectionsGrid.appendChild(errDiv);
+    }
+  }
+
+  // Only attempt to load if firebaseConfig has been replaced
+  if (firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith('REPLACE')) {
+    loadSections();
+  } else {
+    console.warn('academics.html: firebaseConfig is placeholder — replace with your values to enable Firestore fetching.');
+  }
+</script>
   </div>
   
   

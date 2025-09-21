@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="input.css">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
-
-       <style>
+    <style>
             /* Keep the sidebar the same size but make it sticky; inner list scrolls */
             :root { --ea-header-h: 0.5rem; --ea-sidebar-shrink: 20px; --ea-sidebar-pt: 12px; --ea-sidebar-pb: 20px; }
             #logo-sidebar {
@@ -23,10 +22,9 @@
             #logo-sidebar .sidebar-inner { height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-top: var(--ea-sidebar-pt); padding-bottom: var(--ea-sidebar-pb); }
             #logo-sidebar .sidebar-inner::after { content: ""; display: block; height: var(--ea-sidebar-pb); width: 1px; }
          </style>
-
     <title>Dashboard</title>
 </head>
-<body style="margin:0;padding:0;">
+
 
 <!-- 
 <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -120,7 +118,7 @@
             </a>
          </li>
           <li>
-            <a href="./events.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <span class="flex-1 ms-3 whitespace-nowrap">Events</span>
             </a>
          </li>
@@ -147,7 +145,7 @@
             </a>
          </li>
          <li>
-            <a href="./calender.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                   <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
                </svg>
@@ -166,130 +164,186 @@
    </div>
 </aside>
 
-
-<div class="flex-1 pl-4 sm:pl-8 pr-4 sm:pr-8 md:pr-12 lg:pr-16">
-<section class="bg-white dark:bg-gray-1000 pt-4 pl-4">
-   
-   <div class="mx-auto w-full flex flex-col h-[calc(100vh-140px)]">
-    <div class="flex flex-col md:flex-row gap-4">
-
-          <!-- Card 1 -->
-          <div class="w-full bg-white border border-gray-200 rounded-lg ea-dramatic-shadow dark:bg-gray-800 dark:border-gray-700 p-8 md:p-10 flex-1 overflow-auto">
-             <div class="flex flex-col items-center justify-center gap-6 text-center h-full min-h-[300px]">
-                <img class="w-28 h-28 md:w-40 md:h-40 rounded-full shadow-xl flex-shrink-0 mx-auto border-4 border-white dark:border-gray-800" src="./Images/default.jpg" alt="Profile image" style="width:9rem;height:9rem;"/>
-
-                <div class="flex-1 text-center px-2 md:px-6">
-                   <h1 class="mb-2 text-2xl font-extrabold text-gray-900 dark:text-white md:text-3xl lg:text-4xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Jane Doe</span></h1>
-                   <span class="text-sm md:text-base text-gray-600 dark:text-gray-300">Visual Designer</span>
-
-                   <div class="mt-6 w-full max-w-xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700 dark:text-gray-300 place-items-center">
-                      <div class="flex items-center gap-3">
-                         <svg class="w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 12v6M8 12v6M3 8.25A4.25 4.25 0 017.25 4h9.5A4.25 4.25 0 0121 8.25v7.5A4.25 4.25 0 0116.75 20h-9.5A4.25 4.25 0 013 16.75v-8.5z"/></svg>
-                         <span>jane.doe@example.com</span>
-                      </div>
-                      <div class="flex items-center gap-3">
-                         <svg class="w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 12.414M6.343 6.343L10.586 10.586"/></svg>
-                         <span>Cape Town, ZA</span>
-                      </div>
-                      <div class="flex items-center gap-3">
-                         <svg class="w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5h2l2 7 4 4 3-9 3 6h2"/></svg>
-                         <span>+27 82 555 0123</span>
-                      </div>
-                      <div class="flex items-center gap-3">
-                         <svg class="w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 20v-6m0 0V4m0 10h8"/></svg>
-                         <span class="text-gray-500">Member since 2021</span>
-                      </div>
-                   </div>
- 
-                   <p class="mt-6 text-sm text-gray-600 dark:text-gray-300">Passionate designer focused on building accessible interfaces for learning platforms. Enjoys mentoring students and improving UI patterns.</p>
-                </div>
-             </div>
-          </div>
-
-   <!-- Card 2 (duplicate) -->
-   <div class="w-full bg-white border border-gray-200 rounded-lg ea-dramatic-shadow dark:bg-gray-800 dark:border-gray-700 p-6 md:p-8 flex-1 overflow-auto">
-          <h1 class="mb-4 text-xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-3xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Upcoming Events</span></h1>
-            <ol class="relative border-s border-gray-200 dark:border-gray-700">                  
-    <li class="mb-10 ms-4">
-        <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-        <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">February 2022</time>
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Application UI code in Tailwind CSS</h3>
-        <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Get access to over 20+ pages including a dashboard layout, charts, kanban board, calendar, and pre-order E-commerce & Marketing pages.</p>
-    </li>
-    <li class="mb-10 ms-4">
-        <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-        <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">March 2022</time>
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Marketing UI design in Figma</h3>
-        <p class="text-base font-normal text-gray-500 dark:text-gray-400">All of the pages and components are first designed in Figma and we keep a parity between the two versions even as we update the project.</p>
-    </li>
-    <li class="ms-4">
-        <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-        <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">April 2022</time>
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">E-Commerce UI code in Tailwind CSS</h3>
-        <p class="text-base font-normal text-gray-500 dark:text-gray-400">Get started with dozens of web components and interactive elements built on top of Tailwind CSS.</p>
-    </li>
-</ol>
+<div class="flex-1 pl-4 sm:pl-8">
+<section class="bg-white dark:bg-gray-1000 p-6">
+    <div class=" mx-auto">
+        <!-- Calendar Header -->
+        <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 filter drop-shadow-lg">
+            <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Calendar</span></h1>
         </div>
 
-   </div>
-  </div>
-
-   <div class="mt-6 md:mt-12 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 md:p-10 mb-8 ea-dramatic-shadow flex-1 overflow-auto">
-          <div class="flex items-start justify-between gap-4 mb-4">
-             <div>
-                <h1 class="text-xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-3xl">Settings</h1>
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">Accessibility options and language preference.</p>
-             </div>
-             <div class="flex items-center gap-4">
-                <div class="hidden sm:block">
-                   <button id="languageButton" data-dropdown-toggle="languageDropdown" class="text-sm text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-3 py-2 inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">English <svg class="w-3 h-3 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/></svg></button>
-                   <div id="languageDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 mt-2 dark:bg-gray-700">
-                      <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
-                         <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">English</a></li>
-                         <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Afrikaans</a></li>
-                         <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Xhosa</a></li>
-                         <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Zulu</a></li>
-                      </ul>
-                   </div>
+        <!-- Calendar Navigation -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center space-x-4">
+                    <button id="prevMonth" class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors">
+                        <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                    <h2 id="currentMonth" class="text-2xl font-bold text-gray-900 dark:text-white">September 2025</h2>
+                    <button id="nextMonth" class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors">
+                        <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
                 </div>
-             </div>
-          </div>
+                <button id="todayBtn" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    Today
+                </button>
+            </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-             <div class="md:col-span-2">
-                <div class="flex flex-col gap-4 md:gap-6">
-                   <div class="flex flex-col gap-3">
-                      <label class="inline-flex items-center cursor-pointer">
-                         <input type="checkbox" value="" class="sr-only peer" checked>
-                         <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"></div>
-                         <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Hearing</span>
-                      </label>
-                      <label class="inline-flex items-center cursor-pointer">
-                         <input type="checkbox" value="" class="sr-only peer" checked>
-                         <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"></div>
-                         <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Visual impaired</span>
-                      </label>
-                   </div>
-
-                   <div class="mt-2">
-                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Font size</label>
-                      <input id="fontSizeRange" type="range" min="14" max="24" value="16" class="w-full">
-                      <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">Current: <span id="fontSizeValue">16</span>px</div>
-                   </div>
+            <!-- Calendar Grid -->
+            <div class="grid grid-cols-7 gap-1">
+                <!-- Day Headers -->
+                <div class="p-3 text-center text-sm font-semibold text-gray-600 dark:text-gray-400">Sun</div>
+                <div class="p-3 text-center text-sm font-semibold text-gray-600 dark:text-gray-400">Mon</div>
+                <div class="p-3 text-center text-sm font-semibold text-gray-600 dark:text-gray-400">Tue</div>
+                <div class="p-3 text-center text-sm font-semibold text-gray-600 dark:text-gray-400">Wed</div>
+                <div class="p-3 text-center text-sm font-semibold text-gray-600 dark:text-gray-400">Thu</div>
+                <div class="p-3 text-center text-sm font-semibold text-gray-600 dark:text-gray-400">Fri</div>
+                <div class="p-3 text-center text-sm font-semibold text-gray-600 dark:text-gray-400">Sat</div>
+                
+                <!-- Calendar Days -->
+                <div id="calendarDays" class="contents">
+                    <!-- Days will be generated by JavaScript -->
                 </div>
-             </div>
+            </div>
+        </div>
 
-    
-          </div>
+        <!-- Events Section -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Upcoming Events</h3>
+            <div id="eventsList" class="space-y-3">
+                <!-- Sample Events -->
+                <div class="flex items-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border-l-4 border-blue-500">
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-gray-900 dark:text-white">Math Assignment Due</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">September 25, 2025 at 11:59 PM</p>
+                    </div>
+                    <span class="px-2 py-1 bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200 text-xs rounded-full">Assignment</span>
+                </div>
+                
+                <div class="flex items-center p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border-l-4 border-green-500">
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-gray-900 dark:text-white">Science Fair</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">September 28, 2025 at 9:00 AM</p>
+                    </div>
+                    <span class="px-2 py-1 bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200 text-xs rounded-full">Event</span>
+                </div>
+                
+                <div class="flex items-center p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border-l-4 border-yellow-500">
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-gray-900 dark:text-white">English Presentation</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">October 2, 2025 at 2:00 PM</p>
+                    </div>
+                    <span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200 text-xs rounded-full">Presentation</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-
-
-   </div>
-  
-  
-</section>
-   
-  
+    <!-- Calendar JavaScript -->
+    <script>
+        class Calendar {
+            constructor() {
+                this.currentDate = new Date();
+                this.today = new Date();
+                this.selectedDate = null;
+                
+                this.monthNames = [
+                    'January', 'February', 'March', 'April', 'May', 'June',
+                    'July', 'August', 'September', 'October', 'November', 'December'
+                ];
+                
+                this.init();
+            }
+            
+            init() {
+                this.bindEvents();
+                this.render();
+            }
+            
+            bindEvents() {
+                document.getElementById('prevMonth').addEventListener('click', () => {
+                    this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+                    this.render();
+                });
+                
+                document.getElementById('nextMonth').addEventListener('click', () => {
+                    this.currentDate.setMonth(this.currentDate.getMonth() + 1);
+                    this.render();
+                });
+                
+                document.getElementById('todayBtn').addEventListener('click', () => {
+                    this.currentDate = new Date();
+                    this.render();
+                });
+            }
+            
+            render() {
+                this.renderHeader();
+                this.renderDays();
+            }
+            
+            renderHeader() {
+                const monthYear = `${this.monthNames[this.currentDate.getMonth()]} ${this.currentDate.getFullYear()}`;
+                document.getElementById('currentMonth').textContent = monthYear;
+            }
+            
+            renderDays() {
+                const calendarDays = document.getElementById('calendarDays');
+                calendarDays.innerHTML = '';
+                
+                const firstDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
+                const lastDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0);
+                const startDate = new Date(firstDay);
+                startDate.setDate(startDate.getDate() - firstDay.getDay());
+                
+                for (let i = 0; i < 42; i++) {
+                    const date = new Date(startDate);
+                    date.setDate(startDate.getDate() + i);
+                    
+                    const dayElement = this.createDayElement(date);
+                    calendarDays.appendChild(dayElement);
+                }
+            }
+            
+            createDayElement(date) {
+                const div = document.createElement('div');
+                const isCurrentMonth = date.getMonth() === this.currentDate.getMonth();
+                const isToday = this.isSameDay(date, this.today);
+                const isPast = date < this.today && !isToday;
+                
+                div.className = `
+                    p-3 text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors
+                    ${isCurrentMonth ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-gray-600'}
+                    ${isToday ? 'bg-blue-600 text-white rounded-lg font-bold' : ''}
+                    ${isPast && isCurrentMonth ? 'opacity-60' : ''}
+                `;
+                
+                div.textContent = date.getDate();
+                
+                div.addEventListener('click', () => {
+                    this.selectedDate = new Date(date);
+                    this.render();
+                });
+                
+                return div;
+            }
+            
+            isSameDay(date1, date2) {
+                return date1.getDate() === date2.getDate() &&
+                       date1.getMonth() === date2.getMonth() &&
+                       date1.getFullYear() === date2.getFullYear();
+            }
+        }
+        
+        // Initialize calendar when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new Calendar();
+        });
+    </script>
 </section>
 
 
@@ -298,7 +352,6 @@
 
     <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
         <script src="./tailwind.config.js"></script>
-
 
 
 </body>

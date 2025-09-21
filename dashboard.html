@@ -5,7 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="input.css">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
-
+    <style>
+            /* Keep the sidebar the same size but make it sticky; inner list scrolls */
+            :root { --ea-header-h: 0.5rem; --ea-sidebar-shrink: 20px; --ea-sidebar-pt: 12px; --ea-sidebar-pb: 20px; }
+            #logo-sidebar {
+               position: sticky;
+               top: var(--ea-header-h);
+               align-self: flex-start;
+               z-index: 30;
+               display: flex;
+               flex-direction: column;
+               height: calc(100vh - var(--ea-header-h) - var(--ea-sidebar-shrink)) !important;
+               margin-bottom: var(--ea-sidebar-pb); /* extra space below the aside */
+               /* width controlled by existing classes (w-62) to keep same size */
+            }
+            #logo-sidebar .sidebar-inner { height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-top: var(--ea-sidebar-pt); padding-bottom: var(--ea-sidebar-pb); }
+            #logo-sidebar .sidebar-inner::after { content: ""; display: block; height: var(--ea-sidebar-pb); width: 1px; }
+         </style>
     <title>Dashboard</title>
 </head>
 
@@ -66,8 +82,8 @@
  -->
 
 <div class="flex items-start gap-2">
-<aside id="logo-sidebar" style="height:96vh !important; margin-top:20px;" class="sticky top-12 self-start ms-4 w-62 h-[80vh] bg-white border border-gray-200/40 dark:bg-gray-800 dark:border-gray-700/30 rounded-lg overflow-hidden shadow-2xl" aria-label="Sidebar">
-   <div style="height:100% !important;" class="px-2 pb-3 p-3 h-full overflow-y-auto bg-white dark:bg-gray-800 rounded-lg">
+<aside id="logo-sidebar" class="sticky self-start ms-4 mt-4 w-62 bg-white pt-5 border border-gray-200/40 dark:bg-gray-800 dark:border-gray-700/30 rounded-lg overflow-hidden shadow-2xl" aria-label="Sidebar">
+   <div class="sidebar-inner px-2 pb-3 p-3 bg-white dark:bg-gray-800 rounded-lg">
       <ul class="space-y-2 font-medium">
          <li>
             <a href="./dashboard.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -92,18 +108,18 @@
             </a>
          </li>
           <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <a href="./softskills.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <span class="flex-1 ms-3 whitespace-nowrap">Soft Skills</span>
             </a>
          </li>
           <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <a href="./extra.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <span class="flex-1 ms-3 whitespace-nowrap">Extracurricular Activities</span>
             </a>
          </li>
           <li>
             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-               <span class="flex-1 ms-3 whitespace-nowrap">Community</span>
+               <span class="flex-1 ms-3 whitespace-nowrap">Events</span>
             </a>
          </li>
           <li>
