@@ -108,17 +108,17 @@
             </a>
          </li>
           <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <a href="./softskills.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <span class="flex-1 ms-3 whitespace-nowrap">Soft Skills</span>
             </a>
          </li>
           <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <a href="./extra.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <span class="flex-1 ms-3 whitespace-nowrap">Extracurricular Activities</span>
             </a>
          </li>
           <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <a href="./events.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <span class="flex-1 ms-3 whitespace-nowrap">Events</span>
             </a>
          </li>
@@ -145,7 +145,7 @@
             </a>
          </li>
          <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <a href="./calender.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                   <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
                </svg>
@@ -167,6 +167,7 @@
 <div class="flex-1 pl-4 sm:pl-8">
 <section class="bg-white dark:bg-gray-1000 p-6">
     <div class=" mx-auto">
+        <div id="uidDebug" class="mb-4 text-sm text-gray-600">UID: <span id="currentUidDisplay">(not signed)</span></div>
         <!-- Calendar Header -->
         <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 filter drop-shadow-lg">
             <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Calendar</span></h1>
@@ -376,10 +377,12 @@
     };
 
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
-    import { getFirestore, collection, addDoc, query, where, orderBy, getDocs } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
+    import { getFirestore, collection, addDoc, query, where, orderBy, getDocs, doc, getDoc, collectionGroup } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
+    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const auth = getAuth();
 
     // Simple in-memory cache of events by date (YYYY-MM-DD)
     window.eventsByDate = {};
@@ -392,9 +395,19 @@
         try {
             const eventsList = document.getElementById('eventsList');
             eventsList.innerHTML = '';
-            // Query upcoming events (today onwards)
+            // Determine whether we have a student-scoped events collection
             const todayKey = new Date().toISOString().slice(0,10);
-            const q = query(collection(db, 'events'), orderBy('date', 'asc'));
+            const uid = (auth && auth.currentUser && auth.currentUser.uid) || localStorage.getItem('currentUserUid') || window.currentUid || null;
+            let eventsCol;
+            if (uid) {
+                const studentDoc = await findStudentDocByUid(uid);
+                if (studentDoc && studentDoc.ref) {
+                    eventsCol = collection(studentDoc.ref, 'events');
+                }
+            }
+            if (!eventsCol) eventsCol = collection(db, 'events');
+
+            const q = query(eventsCol, orderBy('date', 'asc'));
             const snap = await getDocs(q);
             window.eventsByDate = {};
             const docs = [];
@@ -446,6 +459,40 @@
         }
     }
 
+    // Try to locate a student document for the current user uid.
+    async function findStudentDocByUid(uid) {
+        if (!uid) return null;
+        try {
+            // Try collectionGroup for Students with field authUid
+            const q = query(collectionGroup(db, 'Students'), where('authUid', '==', uid));
+            const cg = await getDocs(q);
+            if (!cg.empty) return cg.docs[0];
+        } catch (e) { /* ignore */ }
+
+        // Try common nested locations: Parent/*/parent1/*/Students/{uid} or Parent/*/Students/{uid}
+        try {
+            const parents = await getDocs(collection(db, 'Parent'));
+            for (const p of parents.docs) {
+                try {
+                    const maybe = await getDoc(doc(p.ref, 'parent1', 'parent1', 'Students', uid));
+                    if (maybe.exists()) return maybe;
+                } catch (e) { /* ignore */ }
+                try {
+                    const maybe2 = await getDoc(doc(p.ref, 'Students', uid));
+                    if (maybe2.exists()) return maybe2;
+                } catch (e) { /* ignore */ }
+            }
+        } catch (e) { /* ignore */ }
+
+        // top-level students collection
+        try {
+            const top = await getDoc(doc(db, 'students', uid));
+            if (top.exists()) return top;
+        } catch (e) { /* ignore */ }
+
+        return null;
+    }
+
     // Expose handler for date clicks used by calendar
      // Drawer form elements (dynamically created if not present)
      function ensureDrawer() {
@@ -485,22 +532,32 @@
 `;
         document.body.appendChild(drawer);
         document.getElementById('drawer-close').addEventListener('click', () => closeDrawer());
-        document.getElementById('drawer-form-el').addEventListener('submit', async (e) => {
-          e.preventDefault();
-          const title = document.getElementById('ev-title').value.trim();
-          if (!title) return alert('Title is required');
-          const date = document.getElementById('ev-date').value.trim();
-          const time = document.getElementById('ev-time').value.trim();
-          const desc = document.getElementById('ev-desc').value.trim();
-          try {
-             await addDoc(collection(db, 'events'), { title, date, time, description: desc, category: 'Event' });
-             closeDrawer();
-             await loadUpcomingEvents();
-          } catch (err) {
-             console.error('Failed saving event', err);
-             alert('Failed to save event');
-          }
-        });
+          document.getElementById('drawer-form-el').addEventListener('submit', async (e) => {
+             e.preventDefault();
+             const title = document.getElementById('ev-title').value.trim();
+             if (!title) return alert('Title is required');
+             const date = document.getElementById('ev-date').value.trim();
+             const time = document.getElementById('ev-time').value.trim();
+             const desc = document.getElementById('ev-desc').value.trim();
+             try {
+                 const uid = (auth && auth.currentUser && auth.currentUser.uid) || localStorage.getItem('currentUserUid') || window.currentUid || null;
+                 let savedRef = null;
+                 if (uid) {
+                      const studentDoc = await findStudentDocByUid(uid);
+                      if (studentDoc && studentDoc.ref) {
+                            savedRef = await addDoc(collection(studentDoc.ref, 'events'), { title, date, time, description: desc, category: 'Event', createdBy: uid });
+                      }
+                 }
+                 if (!savedRef) {
+                      savedRef = await addDoc(collection(db, 'events'), { title, date, time, description: desc, category: 'Event', createdBy: uid });
+                 }
+                 closeDrawer();
+                 await loadUpcomingEvents();
+             } catch (err) {
+                 console.error('Failed saving event', err);
+                 alert('Failed to save event');
+             }
+          });
      }
 
      function openDrawer() {
@@ -533,6 +590,28 @@
 
     // initial load
     loadUpcomingEvents();
+
+    // Update UID debug element when auth state changes or fallback uid present
+    function updateUidDisplay(uid) {
+        const el = document.getElementById('currentUidDisplay');
+        if (!el) return;
+        el.textContent = uid || '(not signed)';
+    }
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            window.currentUid = user.uid;
+            localStorage.setItem('currentUserUid', user.uid);
+            updateUidDisplay(user.uid);
+        } else {
+            // Try fallback local uid
+            const fallback = localStorage.getItem('currentUserUid') || window.currentUid || null;
+            updateUidDisplay(fallback);
+        }
+    });
+
+    // show fallback uid immediately if present
+    updateUidDisplay(localStorage.getItem('currentUserUid') || window.currentUid || null);
 </script>
 
 

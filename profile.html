@@ -314,9 +314,50 @@
       messagingSenderId: "233041342533",
       appId: "1:233041342533:web:e3c15cf7c3ddd475c6f32c"
    };
+   import { signInWithEmailAndPassword } from "./firebaseConfig.js";
+
+   import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+
+   const authInstance = getAuth();
+
+   // When auth state changes, try to find a matching student by uid and populate profile.
+   onAuthStateChanged(authInstance, async (user) => {
+      if (!user) {
+         console.log('No user is logged in');
+         return;
+      }
+      const uid = user.uid;
+      console.log('User is logged in:', uid);
+      localStorage.setItem('currentUserUid', uid);
+
+      try {
+         const found = await findStudentByUid(uid);
+         if (found && found.exists && found.exists()) {
+            const data = found.data();
+            setText('profileName', data.name || data.displayName || `${data.firstName || ''} ${data.lastName || ''}`.trim());
+            setText('profileRole', data.role || data.title || '');
+            setText('profileEmail', data.email || '');
+            setText('profileLocation', data.location || '');
+            setText('profilePhone', data.phone || data.phoneNumber || '');
+            setText('profileMemberSince', data.CreateAt ? `Member since ${data.CreateAt}` : (data.joined ? `Member since ${data.joined}` : ''));
+            setText('profileBio', data.bio || data.description || '');
+            const avatar = document.getElementById('profileAvatar');
+            if (avatar && data.avatarUrl) avatar.src = data.avatarUrl;
+            return;
+         }
+      } catch (e) {
+         console.warn('UID-based lookup failed, will fall back to generic traversal', e);
+      }
+
+      // fallback to previous traversal
+      loadProfile();
+   });
+
+
+
 
    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
-   import { getFirestore, doc, getDoc, collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
+   import { getFirestore, doc, getDoc, collection, getDocs, collectionGroup, query, where } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
 
    const app = initializeApp(firebaseConfig);
    const db = getFirestore(app);
@@ -325,6 +366,44 @@
    function setText(id, text) {
       const el = document.getElementById(id);
       if (el) el.textContent = text || '';
+   }
+
+   // Helper: find a student document by auth UID using collectionGroup or common nested locations
+   async function findStudentByUid(uid) {
+      try {
+         const q = query(collectionGroup(db, 'Students'), where('authUid', '==', uid));
+         const snap = await getDocs(q);
+         if (!snap.empty) return snap.docs[0];
+      } catch (e) { /* ignore */ }
+
+      // Search nested Student subcollections under Parent docs
+      try {
+         const parentsSnap = await getDocs(collection(db, 'Parent'));
+         for (const pdoc of parentsSnap.docs) {
+            try {
+               const parent1Snap = await getDocs(collection(pdoc.ref, 'parent1'));
+               for (const p1 of parent1Snap.docs) {
+                  const sRef = doc(p1.ref, 'Students', uid);
+                  const s = await getDoc(sRef);
+                  if (s.exists()) return s;
+               }
+            } catch (e) { /* ignore */ }
+
+            try {
+               const sRef2 = doc(pdoc.ref, 'Students', uid);
+               const s2 = await getDoc(sRef2);
+               if (s2.exists()) return s2;
+            } catch (e) { /* ignore */ }
+         }
+      } catch (e) { /* ignore */ }
+
+      // top-level students collection
+      try {
+         const top = await getDoc(doc(db, 'students', uid));
+         if (top.exists()) return top;
+      } catch (e) { /* ignore */ }
+
+      return null;
    }
 
    async function loadProfile() {
@@ -338,7 +417,7 @@
          if (parent1Snap.empty) return;
          const parent1Doc = parent1Snap.docs[0];
 
-         const studentsSnap = await getDocs(collection(parent1Doc.ref, 'students'));
+         const studentsSnap = await getDocs(collection(parent1Doc.ref, 'Students'));
          if (studentsSnap.empty) return;
          // find student1 by id if present, otherwise take first
          let studentDoc = studentsSnap.docs.find(d => d.id === 'student1') || studentsSnap.docs[0];
