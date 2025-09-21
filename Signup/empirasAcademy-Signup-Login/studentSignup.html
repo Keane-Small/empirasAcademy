@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empiras Global Student Signup</title>
+
+    <link rel="stylesheet" href="studentSignup.css">
+</head>
+<body>
+    <section class="studentSignup" id="studentSignup">
+        <form  id="studentSignupForm" >
+            
+            <img src="empiras-logo.png" width="70%" height="130px">
+            <h2>Student Signup</h2>
+            <label>Student First name</label>
+            <input type="text" id="student-first-name" name="student-first-name" placeholder="Enter your first name"><br>
+            <label>Student Surname</label>
+            <input type="text" id="student-last-name" name="student-last-name" placeholder="Enter your Surname"><br>
+            <label>Student Email</label>
+            <input type="text" id="student-email" name="student-email" placeholder="Enter Student's email"><br>
+
+            <label>Class</label>
+            <input type="text" id="class" name="class" placeholder="Enter your class"><br>
+
+            <label>Password</label>
+            <input type="password" id="student-password" name="student-password" placeholder="Enter a valid password"
+                autocomplete="new-password" required><br>
+
+            <label>Confirm Password</label>
+            <input type="password" id="student-confirm-password" name="student-confirm-password" placeholder="Enter your password again"
+                required>
+            <small id="studentPasswordConfirmationError"></small><br><br>
+            <button type="button" id="student-submit-btn">Signup</button>
+        </form>
+    </section>
+
+    <script src="studentSignup.js" type="module"></script>
+</body>
+</html>

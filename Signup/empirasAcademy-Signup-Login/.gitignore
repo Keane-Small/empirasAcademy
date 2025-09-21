@@ -1,0 +1,5 @@
+# Node.js dependencies
+node_modules/
+
+# Firebase service account key (adjust the filename if different)
+afrihack25connect-firebase-adminsdk-fbsvc-809d718286.json

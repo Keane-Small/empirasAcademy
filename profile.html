@@ -306,143 +306,344 @@
 
 <script type="module">
    // Use the same firebaseConfig as other pages (replace if different)
-   const firebaseConfig = {
-      apiKey: "AIzaSyCT66hhA0ILeNCaAXkwQH_muAVH-JkTXNg",
-      authDomain: "afrihack25connect.firebaseapp.com",
-      projectId: "afrihack25connect",
-      storageBucket: "afrihack25connect.firebasestorage.app",
-      messagingSenderId: "233041342533",
-      appId: "1:233041342533:web:e3c15cf7c3ddd475c6f32c"
-   };
-   import { signInWithEmailAndPassword } from "./firebaseConfig.js";
+  
+   // import { signInWithEmailAndPassword } from "./firebaseConfig.js";
 
-   import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+   // import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
 
-   const authInstance = getAuth();
+   // const authInstance = getAuth();
 
-   // When auth state changes, try to find a matching student by uid and populate profile.
-   onAuthStateChanged(authInstance, async (user) => {
-      if (!user) {
-         console.log('No user is logged in');
-         return;
-      }
-      const uid = user.uid;
-      console.log('User is logged in:', uid);
-      localStorage.setItem('currentUserUid', uid);
+   // // When auth state changes, try to find a matching student by uid and populate profile.
+   // onAuthStateChanged(authInstance, async (user) => {
+   //    if (!user) {
+   //       console.log('No user is logged in');
+   //       return;
+   //    }
+   //    const uid = user.uid;
+   //    console.log('User is logged in:', uid);
+   //    localStorage.setItem('currentUserUid', uid);
 
-      try {
+   //    try {
+   //       const found = await findStudentByUid(uid);
+   //       if (found && found.exists && found.exists()) {
+   //          const data = found.data();
+   //          setText('profileName', data.name || data.displayName || `${data.firstName || ''} ${data.lastName || ''}`.trim());
+   //          setText('profileRole', data.role || data.title || '');
+   //          setText('profileEmail', data.email || '');
+   //          setText('profileLocation', data.location || '');
+   //          setText('profilePhone', data.phone || data.phoneNumber || '');
+   //          setText('profileMemberSince', data.CreateAt ? `Member since ${data.CreateAt}` : (data.joined ? `Member since ${data.joined}` : ''));
+   //          setText('profileBio', data.bio || data.description || '');
+   //          const avatar = document.getElementById('profileAvatar');
+   //          if (avatar && data.avatarUrl) avatar.src = data.avatarUrl;
+   //          return;
+   //       }
+   //    } catch (e) {
+   //       console.warn('UID-based lookup failed, will fall back to generic traversal', e);
+   //    }
+
+   //    // fallback to previous traversal
+   //    loadProfile();
+   // });
+
+
+
+
+   // import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
+   // import { getFirestore, doc, getDoc, collection, getDocs, collectionGroup, query, where } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
+
+   // const app = initializeApp(firebaseConfig);
+   // const db = getFirestore(app);
+
+   // // Helper to set text safely
+   // function setText(id, text) {
+   //    const el = document.getElementById(id);
+   //    if (el) el.textContent = text || '';
+   // }
+
+   // // Helper: find a student document by auth UID using collectionGroup or common nested locations
+   // async function findStudentByUid(uid) {
+   //    try {
+   //       const q = query(collectionGroup(db, 'Students'), where('authUid', '==', uid));
+   //       const snap = await getDocs(q);
+   //       if (!snap.empty) return snap.docs[0];
+   //    } catch (e) { /* ignore */ }
+
+   //    // Search nested Student subcollections under Parent docs
+   //    try {
+   //       const parentsSnap = await getDocs(collection(db, 'Parent'));
+   //       for (const pdoc of parentsSnap.docs) {
+   //          try {
+   //             const parent1Snap = await getDocs(collection(pdoc.ref, 'parent1'));
+   //             for (const p1 of parent1Snap.docs) {
+   //                const sRef = doc(p1.ref, 'Students', uid);
+   //                const s = await getDoc(sRef);
+   //                if (s.exists()) return s;
+   //             }
+   //          } catch (e) { /* ignore */ }
+
+   //          try {
+   //             const sRef2 = doc(pdoc.ref, 'Students', uid);
+   //             const s2 = await getDoc(sRef2);
+   //             if (s2.exists()) return s2;
+   //          } catch (e) { /* ignore */ }
+   //       }
+   //    } catch (e) { /* ignore */ }
+
+   //    // top-level students collection
+   //    try {
+   //       const top = await getDoc(doc(db, 'students', uid));
+   //       if (top.exists()) return top;
+   //    } catch (e) { /* ignore */ }
+
+   //    return null;
+   // }
+
+async function loadProfile() {
+  try {
+      // Prefer finding the student document by signed-in auth UID
+      const uid = (auth && auth.currentUser && auth.currentUser.uid) || localStorage.getItem('currentUserUid') || window.currentUid || null;
+      if (uid) {
          const found = await findStudentByUid(uid);
-         if (found && found.exists && found.exists()) {
-            const data = found.data();
-            setText('profileName', data.name || data.displayName || `${data.firstName || ''} ${data.lastName || ''}`.trim());
-            setText('profileRole', data.role || data.title || '');
-            setText('profileEmail', data.email || '');
-            setText('profileLocation', data.location || '');
-            setText('profilePhone', data.phone || data.phoneNumber || '');
-            setText('profileMemberSince', data.CreateAt ? `Member since ${data.CreateAt}` : (data.joined ? `Member since ${data.joined}` : ''));
-            setText('profileBio', data.bio || data.description || '');
-            const avatar = document.getElementById('profileAvatar');
-            if (avatar && data.avatarUrl) avatar.src = data.avatarUrl;
+         if (found && typeof found.data === 'function') {
+            applyStudentToProfile(found.data());
             return;
          }
-      } catch (e) {
-         console.warn('UID-based lookup failed, will fall back to generic traversal', e);
       }
 
-      // fallback to previous traversal
-      loadProfile();
-   });
+      // Fallback traversal: Parent -> parent1 -> Students
+      const parentsSnap = await getDocs(collection(db, 'Parent'));
+      if (parentsSnap.empty) return;
+      const parentDoc = parentsSnap.docs[0];
+      const parent1Snap = await getDocs(collection(parentDoc.ref, 'parent1'));
+      if (parent1Snap.empty) return;
+      const parent1Doc = parent1Snap.docs[0];
+      const studentsSnap = await getDocs(collection(parent1Doc.ref, 'Students'));
+      if (studentsSnap.empty) return;
+      const studentDoc = studentsSnap.docs[0];
+      const data = studentDoc.data();
+      applyStudentToProfile(data);
+  } catch (e) {
+    console.error('❌ Failed to load profile from Firestore', e);
+  }
+}
 
+// Helper to populate the DOM with student data (only the fields you asked for)
+function applyStudentToProfile(data) {
+   if (!data) return;
+   const name = data.name || data.displayName || `${data.firstName || ''} ${data.lastName || ''}`.trim();
+   const email = data.email || data.contactEmail || '';
+   const phone = data.phone || data.phoneNumber || '';
+   const location = data.location || '';
+   const role = data.role || data.title || '';
+   const member = data.CreateAt ? `Member since ${data.CreateAt}` : (data.joined ? `Member since ${data.joined}` : '');
+   const bio = data.bio || data.description || '';
 
+   const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v || ''; };
+   set('profileName', name);
+   set('profileRole', role);
+   set('profileEmail', email);
+   set('profileLocation', location);
+   set('profilePhone', phone);
+   set('profileMemberSince', member);
+   set('profileBio', bio);
+   const avatar = document.getElementById('profileAvatar');
+   if (avatar && data.avatarUrl) avatar.src = data.avatarUrl;
+}
 
-
-   import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
-   import { getFirestore, doc, getDoc, collection, getDocs, collectionGroup, query, where } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
-
-   const app = initializeApp(firebaseConfig);
-   const db = getFirestore(app);
-
-   // Helper to set text safely
-   function setText(id, text) {
-      const el = document.getElementById(id);
-      if (el) el.textContent = text || '';
-   }
-
-   // Helper: find a student document by auth UID using collectionGroup or common nested locations
-   async function findStudentByUid(uid) {
-      try {
-         const q = query(collectionGroup(db, 'Students'), where('authUid', '==', uid));
-         const snap = await getDocs(q);
-         if (!snap.empty) return snap.docs[0];
-      } catch (e) { /* ignore */ }
-
-      // Search nested Student subcollections under Parent docs
-      try {
-         const parentsSnap = await getDocs(collection(db, 'Parent'));
-         for (const pdoc of parentsSnap.docs) {
-            try {
-               const parent1Snap = await getDocs(collection(pdoc.ref, 'parent1'));
-               for (const p1 of parent1Snap.docs) {
-                  const sRef = doc(p1.ref, 'Students', uid);
-                  const s = await getDoc(sRef);
-                  if (s.exists()) return s;
-               }
-            } catch (e) { /* ignore */ }
-
-            try {
-               const sRef2 = doc(pdoc.ref, 'Students', uid);
-               const s2 = await getDoc(sRef2);
-               if (s2.exists()) return s2;
-            } catch (e) { /* ignore */ }
-         }
-      } catch (e) { /* ignore */ }
-
-      // top-level students collection
-      try {
-         const top = await getDoc(doc(db, 'students', uid));
-         if (top.exists()) return top;
-      } catch (e) { /* ignore */ }
-
-      return null;
-   }
-
-   async function loadProfile() {
-      try {
-         // Path: Parent -> parent1 -> students -> student1
-         const parentsSnap = await getDocs(collection(db, 'Parent'));
-         if (parentsSnap.empty) return;
-         const parentDoc = parentsSnap.docs[0];
-
-         const parent1Snap = await getDocs(collection(parentDoc.ref, 'parent1'));
-         if (parent1Snap.empty) return;
-         const parent1Doc = parent1Snap.docs[0];
-
-         const studentsSnap = await getDocs(collection(parent1Doc.ref, 'Students'));
-         if (studentsSnap.empty) return;
-         // find student1 by id if present, otherwise take first
-         let studentDoc = studentsSnap.docs.find(d => d.id === 'student1') || studentsSnap.docs[0];
-
-         // If studentDoc is a DocumentSnapshot, we can read fields directly
-         const studentRef = studentDoc.ref;
-         const studentSnapshot = await getDoc(studentRef);
-         if (!studentSnapshot.exists()) return;
-         const data = studentSnapshot.data();
-
-         // Map fields: adjust according to your document structure
-         setText('profileName', data.name || data.displayName || '');
-         setText('profileRole', data.role || data.title || '');
-         setText('profileEmail', data.email || '');
-         setText('profileLocation', data.location || '');
-         setText('profilePhone', data.phone || data.phoneNumber || '');
-         setText('profileMemberSince', data.CreateAt ? `Member since ${data.CreateAt}` : (data.joined ? `Member since ${data.joined}` : ''));
-         setText('profileBio', data.bio || data.description || '');
-         const avatar = document.getElementById('profileAvatar');
-         if (avatar && data.avatarUrl) avatar.src = data.avatarUrl;
-      } catch (e) {
-         console.error('Failed to load profile from Firestore', e);
-      }
-   }
 
    // Start
+   // loadProfile();
+   // Firebase v9 modular JS - plain javascript (not React)
+// Put this in a <script> tag or a module file loaded in the browser.
+ 
+
+import { db, auth, collection, getDocs, getDoc, doc, query, where, onAuthStateChanged, collectionGroup } from './firebaseConfig.js';
+// ------------- CONFIG: replace with your Firebase project config -------------
+
+// const app = initializeApp(./firebaseConfig.js);
+// const auth = getAuth(app);
+// const db = getFirestore(app);
+ 
+// ------------- Utility: wait for current user (resolves once auth state known) -------------
+function getCurrentUserOnce() {
+  return new Promise((resolve) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      unsubscribe();
+      resolve(user); // user === null if not signed in
+    });
+  });
+}
+ 
+// ------------- Method B: If 'speaking' is a subcollection like Parent/{parentUid}/Students/{studentUid}/speaking -------------
+/*
+  This requires knowing parentUid and studentUid. If student documents store
+  the Auth UID, you can find the student doc where studentDoc.UID == auth.uid,
+  then read that student's 'speaking' subcollection.
+*/
+async function getSpeakingDocsByHierarchy() {
+  const user = await getCurrentUserOnce();
+  if (!user) {
+    console.log("No user signed in.");
+    return null;
+  }
+  const uid = user.uid;
+//  console.log("Signed-in user UID:", uid);
+  // 1) Find the student document that references this auth UID (search all Parents -> Students)
+  // NOTE: Firestore doesn't support a single cross-collection query unless you use collectionGroup.
+  // If you used collectionGroup 'Students' or 'speaking', you can search across parents (see below).
+  // Example: if each student doc has field "UID" equal to the auth uid, do:
+//   const studentsGroupQuery = query(collection(db, "Students")); // ONLY if you created a top-level collection "Students"
+  // If you stored Students under Parent/{parentUid}/Students, do a collectionGroup query (recommended):
+  // import { collectionGroup } from firestore and then query(collectionGroup(db, "Students"), where("UID","==", uid))
+ 
+  // For clarity below: attempt collectionGroup search for "Students" (search all Parents' Students)
+  try {
+    // collectionGroup import
+    
+    const studentsGroup = collectionGroup(db, "Students");
+    const q = query(studentsGroup, where("UID", "==", uid));
+    const found = await getDocs(q);
+ 
+    if (found.empty) {
+      console.log("No student doc found under any Parent with UID == ", uid);
+      return null;
+    }
+ 
+    // assume first match is the student we want
+ 
+    console.log("Found student doc path:", studentRef.path, studentDoc.data());
+ 
+    // Now read the 'speaking' subcollection under that student
+    const speakingColRef = collection(db, studentRef, "speaking");
+    const speakingSnap = await getDocs(speakingColRef);
+ 
+    const docs = [];
+    speakingSnap.forEach(d => docs.push({ id: d.id, ...d.data() }));
+    console.log("Speaking subcollection docs:", docs);
+    return docs;
+ 
+  } catch (err) {
+    console.error("Error doing collectionGroup or reading hierarchy:", err);
+    return null;
+  }
+}
+ 
+ 
+async function getSignedInUserAndProfile() {
+  const user = await getCurrentUserOnce();
+  if (!user) {
+    console.log("No user is signed in.");
+    return null;
+  }
+  console.log("Signed in auth user:", {
+    uid: user.uid,
+    email: user.email,
+    displayName: user.displayName,
+    phoneNumber: user.phoneNumber
+  });
+ 
+  // Option A: If you have a profile doc like /users/{uid}, fetch it:
+  try {
+    const profileDocRef = doc(db, "users", user.uid);
+    console.log(profileDocRefs) // common pattern
+    const profileSnap = await getDoc(profileDocRef);
+    if (profileSnap.exists()) {
+      console.log("Profile document:", profileSnap.data());
+      return { auth: user, profile: profileSnap.data() };
+    } else {
+      console.log("No profile doc at users/{uid}. You may be using another structure.");
+      return { auth: user, profile: null };
+    }
+  } catch (err) {
+    console.error("Error fetching profile doc:", err);
+    return { auth: user, profile: null };
+  }
+}
+ 
+// ------------- Example usage (call these from your UI or console) -------------
+/*
+getSignedInUserAndProfile();
+getSpeakingDocsByUid_TopLevel();
+getSpeakingDocsByHierarchy();
+*/
+ 
+// If you want to run automatically when page loads:
+window.addEventListener("load", () => {
+   // call whichever is appropriate for your DB layout:
+   getSignedInUserAndProfile();
+   // Also load profile (will prefer auth-based lookup when available)
    loadProfile();
+  // getSpeakingDocsByUid_TopLevel();
+  // getSpeakingDocsByHierarchy();
+}); getSpeakingDocsByHierarchy();
+
+// Reload profile when auth state changes (so we can use auth UID mapping)
+try {
+   onAuthStateChanged(auth, (user) => {
+      if (user) {
+         localStorage.setItem('currentUserUid', user.uid);
+      }
+      loadProfile();
+   });
+} catch (e) {
+   // ignore if onAuthStateChanged not available
+}
+
+// Robust helper: find a Student document that matches the auth UID.
+// Tries collectionGroup('Students') (recommended) then falls back to scanning Parent -> parent1 -> Students.
+async function findStudentByUid(uid) {
+   if (!uid) return null;
+         try {
+            // preferred: collectionGroup across all Students subcollections
+            const collNames = ['Students', 'students'];
+            const uidFields = ['authUid', 'UID', 'uid'];
+            for (const collName of collNames) {
+               for (const f of uidFields) {
+                  try {
+                     const cg = collectionGroup(db, collName);
+                     const q = query(cg, where(f, '==', uid));
+                     const snap = await getDocs(q);
+                     if (!snap.empty) return snap.docs[0];
+                  } catch (e) {
+                     // continue trying other combinations
+                  }
+               }
+            }
+         } catch (e) {
+            // ignore and fall back
+         }
+
+   // Fallback: traverse Parent -> parent1 -> Students ...
+   try {
+      const parentsSnap = await getDocs(collection(db, 'Parent'));
+      for (const pdoc of parentsSnap.docs) {
+         try {
+            const p1Snap = await getDocs(collection(pdoc.ref, 'parent1'));
+            for (const p1 of p1Snap.docs) {
+               const sRef = doc(p1.ref, 'Students', uid);
+               const sSnap = await getDoc(sRef);
+               if (sSnap.exists()) return sSnap;
+            }
+         } catch (ee) {}
+         try {
+            const sRef2 = doc(pdoc.ref, 'Students', uid);
+            const s2 = await getDoc(sRef2);
+            if (s2.exists()) return s2;
+         } catch (ee) {}
+      }
+   } catch (e) {}
+
+   // final fallback: top-level collection 'students'
+   try {
+      const top = await getDoc(doc(db, 'students', uid));
+      if (top.exists()) return top;
+   } catch (e) {}
+
+   return null;
+}
+
+// const pofile = document.getElementById('profileName');
+
+// profile.innerHTML = luser.name || luser.displayName || `${luser.firstName || ''} ${luser.lastName || ''}`.trim();
 </script>

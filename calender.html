@@ -463,10 +463,18 @@
     async function findStudentDocByUid(uid) {
         if (!uid) return null;
         try {
-            // Try collectionGroup for Students with field authUid
-            const q = query(collectionGroup(db, 'Students'), where('authUid', '==', uid));
-            const cg = await getDocs(q);
-            if (!cg.empty) return cg.docs[0];
+            // Try collectionGroup for Students with multiple potential field names
+            const collNames = ['Students', 'students'];
+            const uidFields = ['authUid', 'UID', 'uid'];
+            for (const collName of collNames) {
+                for (const f of uidFields) {
+                    try {
+                        const q = query(collectionGroup(db, collName), where(f, '==', uid));
+                        const cg = await getDocs(q);
+                        if (!cg.empty) return cg.docs[0];
+                    } catch (e) { /* ignore */ }
+                }
+            }
         } catch (e) { /* ignore */ }
 
         // Try common nested locations: Parent/*/parent1/*/Students/{uid} or Parent/*/Students/{uid}
