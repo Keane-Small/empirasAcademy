@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empiras Global Login/Signup</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <section class="Signup" id="Signup">
+        <form method="post" id="signupForm">
+            
+            
+            <img src="empiras-logo.png" width="70%" height="130px">
+            <h2>Signup and Subscribe to our student Portal</h2>
+            <label>Parent First name</label>
+            <input type="text" id="first-name" name="first-name" placeholder="Enter your first name"><br>
+            <label>Parent Surname</label>
+            <input type="text" id="last-name" name="last-name" placeholder="Enter your Surname"><br>
+
+    
+
+
+            <label>Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number"><br>
+
+                <label>Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter a valid email"><br>
+
+            <label>Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter a valid password"
+                autocomplete="new-password" required><br>
+
+            <label>Confirm Password</label>
+            <input type="password" id="confirm-password" name="confirm-password" placeholder="Enter your password again"
+                required>
+            <small id="passwordConfirmationError"></small><br><br>
+            <button type="button" id="submit-btn">Signup</button>
+            <p id="have-account">Already have an account? <a id="login-btn">Login</a></p>
+        </form>
+    </section>
+
+    <section class="Login" id="Login">
+        <form id="loginForm">
+            <img src="empiras-logo.png" width="70%" height="130px">
+            <h2>Login</h2>
+
+            <label>Email</label>
+            <input type="email" id="loginEmail" placeholder="Enter your email"  required><br>
+
+            <label>Password</label>
+            <input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="new-password" required><br>
+
+            <button type="button"  id="login-btn2">Login</button>
+            <p id="no-account">Dont have an account? <a id="signup-btn">Sign Up</a></p>
+        </form>
+    </section>
+
+    <script src="script.js"></script>
+    <script src="signup.js" type="module"></script>
+    <script src="login.js" type="module" defer></script>
+    <script src="studentSignup.js" type="module" defer></script>
+
+    
+</body>
+
+</html>
